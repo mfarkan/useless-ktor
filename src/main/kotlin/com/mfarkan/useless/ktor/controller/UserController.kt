@@ -18,12 +18,13 @@ fun Route.userController(userRepository: UserRepository) {
     route("") {
         post {
             val request = call.receive<UserCreateRequestDto>()
+            println("route post ${Thread.currentThread().name}")
             userRepository.saveUser(request)
-            return@post call.response.status(HttpStatusCode.Created)
+            call.response.status(HttpStatusCode.Created)
         }
         get {
             val users = userRepository.getAllUser(0, 10)
-            return@get call.respond(message = users, status = HttpStatusCode.OK)
+            call.respond(message = users, status = HttpStatusCode.OK)
         }
     }
 }
